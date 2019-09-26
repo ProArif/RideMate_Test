@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.myres.ariful.ridemate.R;
 
 public class Splash extends AppCompatActivity {
-
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
 
 
     @Override
@@ -18,14 +19,29 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
 
-        new Handler().postDelayed(new Runnable(){
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        ImageView logo= (ImageView) findViewById(R.id.logo);
+        shake.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void run() {
+            public void onAnimationStart(Animation animation) {
 
-                Intent mainIntent = new Intent(Splash.this,MainActivity.class);
-                Splash.this.startActivity(mainIntent);
-                Splash.this.finish();
             }
-        }, SPLASH_DISPLAY_LENGTH);
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+                finish();
+                startActivity(new Intent(Splash.this,MainActivity.class));
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        logo.setAnimation(shake);
+
     }
+
+
 }
